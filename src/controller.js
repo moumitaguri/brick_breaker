@@ -85,7 +85,7 @@ const initialize = function () {
   let viewport = document.getElementById("viewport");
   viewport.focus();
   viewport.onkeydown = movePaddle.bind(null, document, game);
-  moveBall(document, game);
+  viewport.onclick = moveBall.bind(null,document,game)
 }
 
 window.onload = initialize;
