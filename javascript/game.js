@@ -35,8 +35,8 @@ class Game {
   }
 
   validateBallMovement() {
-    if (this.isBallCollideWithVerticalWall()) this.wall.changeVelocityVertically(this.ball.velocity);
-    if (this.isBallCollideWithHorizontalWall()) this.wall.changeVelocityHorizontally(this.ball.velocity);
+    if (this.isBallCollideWithVerticalWall()) this.ball.changeVelocityVertically(this.ball.velocity);
+    if (this.isBallCollideWithHorizontalWall()) this.ball.changeVelocityHorizontally(this.ball.velocity);
     if (this.isBallCollidedWithPaddle()) this.paddle.changeVelocity(this.ball.velocity);
   }
 }
