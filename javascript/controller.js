@@ -9,6 +9,7 @@ const createDiv = function (document, parent, element, className, id, tabIndex) 
   parent.appendChild(createdDiv);
   return createdDiv;
 }
+
 const addPixelSuffix = value => value + "px";
 
 const drawWall = function (wall, wallDiv) {
@@ -35,41 +36,26 @@ const drawBall = function (ball, ballDiv) {
   ballDiv.style.bottom = addPixelSuffix(ball.position.Y);
 }
 
-const handleKeyEvent = function (paddle, paddleDiv) {
+const movePaddle = function (document, game) {
+  let paddleDiv = document.getElementById("paddle_1");
   if (event.key == ARROW_LEFT) {
-    paddle.moveLeft();
+    game.paddle.moveLeft();
   }
   if (event.key == ARROW_RIGHT) {
-    paddle.moveRight();
+    game.paddle.moveRight();
   }
-  drawPaddle(paddle, paddleDiv);
+  game.validatePaddlePosition();
+  drawPaddle(game.paddle, paddleDiv);
 }
 
-const addEventListener = function (paddle, paddleDiv) {
-  let viewport = document.getElementById("viewport");
-  viewport.focus();
-  viewport.onkeydown = handleKeyEvent.bind(null, paddle, paddleDiv);
-}
-
-const moveBall = function (ball, ballDiv) {
+const moveBall = function (document, game) {
   setInterval(() => {
-    ball.moveBall();
-    drawBall(ball, ballDiv);
+    let ballDiv = document.getElementById("ball_1");
+    game.validateBallMovement();
+    game.ball.moveBall();
+    drawBall(game.ball, ballDiv);
   }, 10);
 
-}
-
-const initializePaddle = function (document, viewport) {
-  let paddle = new Paddle(150, 25, new Position(405, 10));
-  let paddleDiv = createDiv(document, viewport, "div", "paddle", "paddle_1");
-  drawPaddle(paddle, paddleDiv);
-  addEventListener(paddle, paddleDiv);
-}
-
-const initializeBall = function (document, viewport, velocity) {
-  let ball = new Ball(30, new Position(460, 35), velocity);
-  let ballDiv = createDiv(document, viewport, "div", "ball", "ball_1");
-  drawBall(ball, ballDiv);
 }
 
 const initializeBrick = function (document, viewport) {
@@ -77,7 +63,6 @@ const initializeBrick = function (document, viewport) {
   let brickDiv = createDiv(document, viewport, "div", "brick", "brick_1");
   drawBrick(brick, brickDiv);
 }
-
 
 const createElementsAndInitialize = function (document, wall, paddle, ball) {
   let body = document.getElementById("main");
@@ -88,11 +73,7 @@ const createElementsAndInitialize = function (document, wall, paddle, ball) {
   drawWall(wall, wallDiv);
   drawPaddle(paddle, paddleDiv);
   drawBall(ball, ballDiv);
-  addEventListener(paddle, paddleDiv);
-  moveBall(ball, ballDiv);
-
 }
-const getViewPort = document => document.getElementById("viewport");
 
 const initialize = function () {
   let wall = new Wall(960, 680);
@@ -100,6 +81,11 @@ const initialize = function () {
   let velocity = new Velocity(1, -1);
   let ball = new Ball(30, new Position(460, 35), velocity);
   createElementsAndInitialize(document, wall, paddle, ball);
+  let game = new Game(wall, paddle, ball);
+  let viewport = document.getElementById("viewport");
+  viewport.focus();
+  viewport.onkeydown = movePaddle.bind(null, document, game);
+  moveBall(document, game);
 }
 
 window.onload = initialize;

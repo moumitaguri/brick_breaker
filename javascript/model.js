@@ -1,7 +1,11 @@
-class Wall{
-  constructor(width, height){
+class Wall {
+  constructor(width, height) {
     this.width = width;
     this.height = height;
+  }
+
+  changeVelocity(velocity) {
+    velocity.negateX();
   }
 }
 
@@ -17,6 +21,9 @@ class Paddle {
   moveRight() {
     this.position.X += 10;
   }
+  changeVelocity(velocity) {
+    velocity.negateY();
+  }
 }
 
 class Brick {
@@ -31,13 +38,26 @@ class Position {
     this.X = X;
     this.Y = Y;
   }
-}
+  setPositionX(position) {
+    this.X = position;
+  }
 
+  setPositionY(position) {
+    this.Y = position;
+  }
+}
 
 class Velocity {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+  }
+
+  negateX() {
+    this.x *= -1;
+  }
+  negateY() {
+    this.y *= -1;
   }
 }
 
