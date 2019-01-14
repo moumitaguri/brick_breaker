@@ -54,7 +54,7 @@ const moveBall = function (document, game) {
     game.validateBallMovement();
     game.ball.moveBall();
     drawBall(game.ball, ballDiv);
-  }, 10);
+  }, 1);
 
 }
 

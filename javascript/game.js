@@ -13,15 +13,30 @@ class Game {
       this.paddle.position.setPositionX(maxLeftPosition);
   }
 
-  isBallCollideWithWall() {
+  isBallCollideWithHorizontalWall() {
     const maxLeftPosition = this.wall.width - 2 * this.ball.radius;
     return this.ball.position.X >= maxLeftPosition || this.ball.position.X <= 0;
   }
+  isBallCollideWithVerticalWall() {
+    const maxBottomPosition = this.wall.height - 2 * this.ball.radius;
+    return this.ball.position.Y >= maxBottomPosition || this.ball.position.Y <= 0;
+  }
+
+  isBallInRangeOf(element) {
+    const collidalRange = element.position.X + element.width;
+    const collidalPositionOfBall = this.ball.position.X + this.ball.radius;
+    return element.position.X <= collidalPositionOfBall
+      && collidalPositionOfBall <= collidalRange;
+  }
+
+  isBallCollidedWithPaddle() {
+    const maxCollidalLength = this.paddle.position.Y + this.paddle.height;
+    return this.ball.position.Y <= maxCollidalLength && this.isBallInRangeOf(this.paddle);
+  }
 
   validateBallMovement() {
-    const maxBottomPosition = this.wall.height - 2 * this.ball.radius;
-    if (this.isBallCollideWithWall()) this.wall.changeVelocity(this.ball.velocity);
-    if (this.ball.position.Y >= maxBottomPosition) this.ball.velocity.negateY();
-    // if (this.isBallCollidedWithPaddle()) this.paddle.changeVelocity(this.ball.velocity);
+    if (this.isBallCollideWithVerticalWall()) this.wall.changeVelocityVertically(this.ball.velocity);
+    if (this.isBallCollideWithHorizontalWall()) this.wall.changeVelocityHorizontally(this.ball.velocity);
+    if (this.isBallCollidedWithPaddle()) this.paddle.changeVelocity(this.ball.velocity);
   }
 }

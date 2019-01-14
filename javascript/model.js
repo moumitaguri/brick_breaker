@@ -4,8 +4,11 @@ class Wall {
     this.height = height;
   }
 
-  changeVelocity(velocity) {
+  changeVelocityHorizontally(velocity) {
     velocity.negateX();
+  }
+  changeVelocityVertically(velocity) {
+    velocity.negateY();
   }
 }
 
