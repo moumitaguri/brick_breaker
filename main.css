@@ -1,0 +1,23 @@
+.wall{
+  width: 960px;
+  height:680px;
+  margin: 0 auto;
+  border: 1px solid black;
+  position: relative;
+}
+
+.paddle{
+  background-color: black;
+  position: absolute;
+}
+
+.brick{
+  background-color: brown;
+  position: absolute;
+}
+
+.ball{
+  border-radius: 50%;
+  background-color: blue;
+  position: absolute;
+}
